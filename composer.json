@@ -1,0 +1,24 @@
+{
+    "name": "leochenftw/silverstripe-event",
+    "description": "Leo Chen's event module for SilverStripe 4",
+    "type": "silverstripe-vendormodule",
+    "homepage": "https://github.com/leochenftw",
+    "license": "MIT",
+    "keywords": ["event"],
+    "authors": [
+        {
+            "name": "Leo Chen",
+            "homepage": "http://leochen.co.nz"
+        }
+    ],
+    "require": {
+        "silverstripe/framework": "^4.4",
+        "silvershop/silverstripe-hasonefield": "^3.0.0",
+        "bummzack/sortablefile": "^2.0"
+    },
+    "extra": {
+        "expose": [
+            "client/img"
+        ]
+    }
+}

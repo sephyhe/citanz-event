@@ -1,3 +1,6 @@
 ---
 Name: 'leochenftw-ss-event'
 ---
+SilverStripe\Security\Member:
+  extensions:
+    - Leochenftw\SSEvent\Extension\MemberExtension

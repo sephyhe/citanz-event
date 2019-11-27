@@ -37,4 +37,9 @@ class EventLocation extends DataObject
     private static $defaults = [
         'Zoom'      =>  12
     ];
+
+    public function get_location_string()
+    {
+        return $this->Title . ' (' . $this->Address . ')';
+    }
 }

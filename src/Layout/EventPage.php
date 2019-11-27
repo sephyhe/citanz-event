@@ -2,6 +2,8 @@
 
 namespace Leochenftw\SSEvent\Layout;
 use Leochenftw\SSEvent\Model\EventLocation;
+use SilverStripe\Forms\TextareaField;
+use SilverStripe\Forms\HTMLEditor\HtmlEditorField;
 use SilverStripe\AssetAdmin\Forms\UploadField;
 use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\TextField;
@@ -38,12 +40,20 @@ class EventPage extends Page
      * @var array
      */
     private static $db = [
+        'ShortDesc'     =>  'Text',
         'QRToken'       =>  'Varchar(40)',
+        'EventVideo'    =>  'HTMLText',
         'EventStart'    =>  'Datetime',
         'EventEnd'      =>  'Datetime',
         'AttendeeLimit' =>  'Int',
         'AllowGuests'   =>  'Boolean'
     ];
+
+    /**
+     * Default sort ordering
+     * @var array
+     */
+    private static $default_sort = ['EventStart' => 'DESC'];
 
     public function populateDefaults()
     {
@@ -66,11 +76,24 @@ class EventPage extends Page
     ];
 
     /**
+     * Relationship version ownership
+     * @var array
+     */
+    private static $owns = [
+        'FeaturedImage',
+        'EventPhotos'
+    ];
+
+    /**
      * Has_many relationship
      * @var array
      */
     private static $has_many = [
         'RSVPs'     =>  RSVP::class
+    ];
+
+    private static $cascade_deletes = [
+        'RSVPs'
     ];
 
     /**
@@ -102,6 +125,10 @@ class EventPage extends Page
         $fields->addFieldsToTab(
             'Root.Main',
             [
+                TextareaField::create(
+                    'ShortDesc',
+                    'Short Description'
+                )->setDescription('It will  be used in the iCal file attached to the RSVP confirmation email. If you don\'t know what that is, leave it blank.'),
                 UploadField::create(
                     'FeaturedImage',
                     'FeaturedImage'
@@ -138,11 +165,17 @@ class EventPage extends Page
             $gf->setConfig(GridFieldConfig_RecordViewer::create());
         }
 
-        $fields->addFieldToTab(
-            'Root.EventPhotos',
-            SortableUploadField::create(
-                'EventPhotos', 'Event photo gallery'
-            )->setDescription('Photos taken during the event')
+        $fields->addFieldsToTab(
+            'Root.EventGallery',
+            [
+                SortableUploadField::create(
+                    'EventPhotos', 'Event photo gallery'
+                )->setDescription('Photos taken during the event'),
+                HtmlEditorField::create(
+                    'EventVideo',
+                    'Event Video'
+                )->setDescription('The video taken during the event')
+            ]
         );
 
         return $fields;
@@ -153,11 +186,15 @@ class EventPage extends Page
         return $this->AttendeeLimit - $this->get_total_attendee_count($rsvp) - $n >= 0;
     }
 
-    public function get_total_attendee_count($exclude)
+    public function get_total_attendee_count($exclude = null)
     {
         $n      =   0;
-        if ($exclude->exists()) {
-            $rsvps  =   $this->RSVPs()->exclude(['ID' => $exclude->ID]);
+        if (!empty($exclude)) {
+            if ($exclude->exists()) {
+                $rsvps  =   $this->RSVPs()->exclude(['ID' => $exclude->ID]);
+            } else {
+                $rsvps  =   $this->RSVPs();
+            }
         } else {
             $rsvps  =   $this->RSVPs();
         }

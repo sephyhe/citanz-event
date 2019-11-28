@@ -46,7 +46,8 @@ class EventPage extends Page
         'EventStart'    =>  'Datetime',
         'EventEnd'      =>  'Datetime',
         'AttendeeLimit' =>  'Int',
-        'AllowGuests'   =>  'Boolean'
+        'AllowGuests'   =>  'Boolean',
+        'MaxGuests'     =>  'Int'
     ];
 
     /**
@@ -148,6 +149,10 @@ class EventPage extends Page
                 CheckboxField::create(
                     'AllowGuests',
                     'Allow Guests'
+                ),
+                TextField::create(
+                    'MaxGuests',
+                    'Max. number of guests can a RSVP bring'
                 ),
                 HasOneButtonField::create($this, "Location")
             ],

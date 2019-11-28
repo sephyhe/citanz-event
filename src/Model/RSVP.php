@@ -106,9 +106,11 @@ class RSVP extends DataObject
 
         if ($this->Event()->AllowGuests) {
 
-            if ($this->NumGuests > 5) {
-                $validator->addError('You cannot bring more than 5 guests!');
-                return $validator;
+            if (!empty($this->Event()->MaxGuests)) {
+                if ($this->NumGuests > $this->Event()->MaxGuests) {
+                    $validator->addError('You cannot bring more than ' . $this->Event()->MaxGuests . ' guests!');
+                    return $validator;
+                }
             }
 
             if ($this->Event()->AttendeeLimit > 0) {

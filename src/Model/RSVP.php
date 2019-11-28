@@ -51,7 +51,7 @@ class RSVP extends DataObject
      * Default sort ordering
      * @var array
      */
-    private static $default_sort = ['Created' => 'DESC'];
+    private static $default_sort = ['Created' => 'DESC', 'ID' => 'DESC'];
 
     /**
      * Defines summary fields commonly used in table columns

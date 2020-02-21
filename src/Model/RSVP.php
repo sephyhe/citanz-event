@@ -89,7 +89,7 @@ class RSVP extends DataObject
             return $validator;
         }
 
-        if (empty($this->Email) && !$this->Member()->exists()) {
+        if (empty($this->Email) && !$this->Member()->exists() && !Member::currentUser()) {
             $validator->addError('You need to provide your email address!');
             return $validator;
         }

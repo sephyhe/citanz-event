@@ -148,6 +148,7 @@ class RSVP extends DataObject
             }
         } elseif ($member = Member::currentUser()) {
             $this->MemberID =   $member->ID;
+            $this->Email    =   $member->Email;
         }
 
         if (empty($this->QRToken)) {

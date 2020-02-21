@@ -76,7 +76,7 @@ class RSVP extends DataObject
     public function populateDefaults()
     {
         if ($member = Member::currentUser()) {
-            $this->MemberID =   $member->ID;
+            #$this->MemberID =   $member->ID;
         }
     }
 
@@ -94,10 +94,10 @@ class RSVP extends DataObject
             return $validator;
         }
 
-        if (!empty($this->Email) && !filter_var($this->Email, FILTER_VALIDATE_EMAIL)) {
-            $validator->addError('It\'s not a valid email!');
-            return $validator;
-        }
+    #    if (!empty($this->Email) && !filter_var($this->Email, FILTER_VALIDATE_EMAIL)) {
+     #       $validator->addError('It\'s not a valid email!');
+      #      return $validator;
+      #  }
 
         if (!$this->Event()->AllowGuests && $this->NumGuests > 0) {
             $validator->addError('The event doesn\'t allow bringing guests!');
@@ -121,10 +121,10 @@ class RSVP extends DataObject
             }
         }
 
-        if (gettype($this->AttendedAt) == 'integer' && strtotime($this->Event()->EventStart) > $this->AttendedAt) {
-            $validator->addError('The event has not yet started!');
-            return $validator;
-        }
+ #       if (gettype($this->AttendedAt) == 'integer' && strtotime($this->Event()->EventStart) > $this->AttendedAt) {
+  #          $validator->addError('The event has not yet started!');
+   #         return $validator;
+    #    }
 
         return $validator;
     }

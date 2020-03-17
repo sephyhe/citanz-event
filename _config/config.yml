@@ -1,6 +1,6 @@
 ---
-Name: 'leochenftw-ss-event'
+Name: 'citanz-event'
 ---
 SilverStripe\Security\Member:
   extensions:
-    - Leochenftw\SSEvent\Extension\MemberExtension
+    - Cita\Event\Extension\MemberExtension

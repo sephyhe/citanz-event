@@ -1,9 +1,9 @@
 <?php
 
-namespace Leochenftw\SSEvent\Model;
+namespace Cita\Event\Model;
 use SilverStripe\Security\Member;
 use SilverStripe\ORM\DataObject;
-use Leochenftw\SSEvent\Layout\EventPage;
+use Cita\Event\Layout\EventPage;
 
 /**
  * Description
@@ -73,13 +73,6 @@ class RSVP extends DataObject
         'Member'    =>  Member::class
     ];
 
-    public function populateDefaults()
-    {
-        if ($member = Member::currentUser()) {
-            #$this->MemberID =   $member->ID;
-        }
-    }
-
     public function validate()
     {
         $validator  =   parent::validate();
@@ -94,10 +87,10 @@ class RSVP extends DataObject
             return $validator;
         }
 
-    #    if (!empty($this->Email) && !filter_var($this->Email, FILTER_VALIDATE_EMAIL)) {
-     #       $validator->addError('It\'s not a valid email!');
-      #      return $validator;
-      #  }
+        if (!empty($this->Email) && !filter_var($this->Email, FILTER_VALIDATE_EMAIL)) {
+            $validator->addError('It\'s not a valid email!');
+            return $validator;
+        }
 
         if (!$this->Event()->AllowGuests && $this->NumGuests > 0) {
             $validator->addError('The event doesn\'t allow bringing guests!');
@@ -121,10 +114,12 @@ class RSVP extends DataObject
             }
         }
 
- #       if (gettype($this->AttendedAt) == 'integer' && strtotime($this->Event()->EventStart) > $this->AttendedAt) {
-  #          $validator->addError('The event has not yet started!');
-   #         return $validator;
-    #    }
+        $attend_at  =   gettype($this->AttendedAt) == 'integer' ? $this->AttendedAt : strtotime($this->AttendedAt);
+
+        if (strtotime($this->Event()->EventStart) > $attend_at) {
+            $validator->addError('The event has not yet started!');
+            return $validator;
+        }
 
         return $validator;
     }
@@ -140,15 +135,13 @@ class RSVP extends DataObject
     public function onBeforeWrite()
     {
         parent::onBeforeWrite();
-        if ($this->Member()->exists()) {
-            $this->Email    =   $this->Member()->Email;
-        } elseif (!empty($this->Email)) {
+
+        if (!empty($this->Email) && !$this->Member()->exists()) {
             if ($member = Member::get()->filter(['Email' => $this->Email])->first()) {
                 $this->MemberID =   $member->ID;
             }
-        } elseif ($member = Member::currentUser()) {
-            $this->MemberID =   $member->ID;
-            $this->Email    =   $member->Email;
+        } elseif ($this->Member()->exists() && empty($this->Email)) {
+            $this->Email    =   $this->Member()->Email;
         }
 
         if (empty($this->QRToken)) {

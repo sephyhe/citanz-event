@@ -1,11 +1,11 @@
 <?php
 
-namespace Leochenftw\SSEvent\Extension;
+namespace Cita\Event\Extension;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\LiteralField;
 use SilverStripe\ORM\DataExtension;
 use Leochenftw\Debugger;
-use Leochenftw\SSEvent\Model\RSVP;
+use Cita\Event\Model\RSVP;
 
 class MemberExtension extends DataExtension
 {

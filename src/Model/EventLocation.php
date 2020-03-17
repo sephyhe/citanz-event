@@ -1,6 +1,6 @@
 <?php
 
-namespace Leochenftw\SSEvent\Model;
+namespace Cita\Event\Model;
 
 use SilverStripe\ORM\DataObject;
 

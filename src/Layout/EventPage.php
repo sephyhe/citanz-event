@@ -1,7 +1,7 @@
 <?php
 
-namespace Leochenftw\SSEvent\Layout;
-use Leochenftw\SSEvent\Model\EventLocation;
+namespace Cita\Event\Layout;
+use Cita\Event\Model\EventLocation;
 use SilverStripe\Forms\TextareaField;
 use SilverStripe\Forms\HTMLEditor\HtmlEditorField;
 use SilverStripe\AssetAdmin\Forms\UploadField;
@@ -11,7 +11,7 @@ use SilverStripe\Security\Member;
 use SilverStripe\Forms\DatetimeField;
 use SilverStripe\Assets\Image;
 use SilverShop\HasOneField\HasOneButtonField;
-use Leochenftw\SSEvent\Model\RSVP;
+use Cita\Event\Model\RSVP;
 use \SilverStripe\Forms\GridField\GridField;
 use \SilverStripe\Forms\GridField\GridFieldConfig_Base;
 use \SilverStripe\Forms\GridField\GridFieldConfig_RecordViewer;
@@ -27,7 +27,7 @@ use Page;
  */
 class EventPage extends Page
 {
-    private static $icon = 'leochenftw/silverstripe-event: client/img/event.png';
+    private static $icon = 'cita/citanz-event: client/img/event.png';
     /**
      * Defines the database table name
      * @var string

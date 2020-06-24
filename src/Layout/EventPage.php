@@ -2,6 +2,8 @@
 
 namespace Cita\Event\Layout;
 use Cita\Event\Model\EventLocation;
+use gorriecoe\LinkField\LinkField;
+use gorriecoe\Link\Models\Link;
 use SilverStripe\Forms\TextareaField;
 use SilverStripe\Forms\HTMLEditor\HtmlEditorField;
 use SilverStripe\AssetAdmin\Forms\UploadField;
@@ -72,8 +74,9 @@ class EventPage extends Page
      * @var array
      */
     private static $has_one = [
-        'FeaturedImage' =>  Image::class,
-        'Location'      =>  EventLocation::class
+        'FeaturedImage' => Image::class,
+        'Location' => EventLocation::class,
+        'WebinarLink' => Link::class
     ];
 
     /**
@@ -123,6 +126,9 @@ class EventPage extends Page
     {
         $fields = parent::getCMSFields();
         $fields->fieldByName('Root.Main.Title')->setDescription('QR Code: ' . $this->AbsoluteLink() . 'turnup/' . $this->QRToken);
+        $fields->removeByName([
+            'WebinarLinkID'
+        ]);
         $fields->addFieldsToTab(
             'Root.Main',
             [
@@ -154,7 +160,12 @@ class EventPage extends Page
                     'MaxGuests',
                     'Max. number of guests can a RSVP bring'
                 ),
-                HasOneButtonField::create($this, "Location")
+                HasOneButtonField::create($this, "Location"),
+                LinkField::create(
+                    'WebinarLink',
+                    'Webinar Link',
+                    $this
+                )
             ],
             'URLSegment'
         );

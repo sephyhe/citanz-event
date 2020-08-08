@@ -163,9 +163,9 @@ class EventPage extends Page
                 HasOneButtonField::create($this, "Location"),
                 LinkField::create(
                     'WebinarLink',
-                    'Webinar Link',
+                    'External Link',
                     $this
-                )
+                )->setDescription('e.g. a link going to the online webinar address')
             ],
             'URLSegment'
         );

@@ -194,8 +194,6 @@ class EventPage extends Page
             ]
         );
 
-        $this->extend('updateCMSFields', $fields);
-
         return $fields;
     }
 

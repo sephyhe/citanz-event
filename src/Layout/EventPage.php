@@ -20,6 +20,7 @@ use \SilverStripe\Forms\GridField\GridFieldConfig_RecordViewer;
 use \SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
 use Bummzack\SortableFile\Forms\SortableUploadField;
 use Page;
+use SilverStripe\Security\Security;
 
 /**
  * Description
@@ -175,7 +176,7 @@ class EventPage extends Page
             $gf = GridField::create('RSVPs', 'RSVPs', $this->RSVPs())
         );
 
-        if (Member::currentUser() && Member::currentUser()->isDefaultadmin()) {
+        if (Security::getCurrentUser() && Security::getCurrentUser()->isDefaultadmin()) {
             $gf->setConfig(GridFieldConfig_RecordEditor::create());
         } else {
             $gf->setConfig(GridFieldConfig_RecordViewer::create());
@@ -224,7 +225,7 @@ class EventPage extends Page
 
     public function already_signed_up()
     {
-        if ($member = Member::currentUser()) {
+        if ($member = Security::getCurrentUser()) {
             return $this->RSVPs()->filter(['MemberID' => $member->ID])->first();
         }
 

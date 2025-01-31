@@ -4,6 +4,7 @@ namespace Cita\Event\Model;
 use SilverStripe\Security\Member;
 use SilverStripe\ORM\DataObject;
 use Cita\Event\Layout\EventPage;
+use SilverStripe\Security\Security;
 
 /**
  * Description
@@ -82,7 +83,7 @@ class RSVP extends DataObject
             return $validator;
         }
 
-        if (empty($this->Email) && !$this->Member()->exists() && !Member::currentUser()) {
+        if (empty($this->Email) && !$this->Member()->exists() && !Security::getCurrentUser()) {
             $validator->addError('You need to provide your email address!');
             return $validator;
         }
